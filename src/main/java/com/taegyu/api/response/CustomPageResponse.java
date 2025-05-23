@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @SuperBuilder
-public class PageResponse<T> {
+public class CustomPageResponse<T> {
     /**
      * 페이지에 포함된 데이터 목록
      */
@@ -61,9 +61,9 @@ public class PageResponse<T> {
      * @param <T> 페이지에 포함된 데이터의 타입
      * @return 생성된 페이지 응답 객체
      */
-    public static <T> PageResponse<T> of(List<T> content, int page, int size, long totalElements) {
+    public static <T> CustomPageResponse<T> of(List<T> content, int page, int size, long totalElements) {
         int totalPages = (int) Math.ceil((double) totalElements / size);
-        return PageResponse.<T>builder()
+        return CustomPageResponse.<T>builder()
                 .content(content)
                 .page(page)
                 .size(size)

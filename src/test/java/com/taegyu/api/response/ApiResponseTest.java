@@ -9,7 +9,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class ApiResponseTest {
+class CustomApiResponseTest {
 
     @Test
     @DisplayName("빌더 패턴으로 성공 응답을 생성할 수 있다")
@@ -19,7 +19,7 @@ class ApiResponseTest {
         String message = "성공적으로 처리되었습니다.";
 
         // when
-        ApiResponse<String> response = ApiResponse.<String>builder()
+        CustomApiResponse<String> response = CustomApiResponse.<String>builder()
                 .success(true)
                 .data(data)
                 .message(message)
@@ -40,7 +40,7 @@ class ApiResponseTest {
         String message = "에러가 발생했습니다.";
 
         // when
-        ApiResponse<Void> response = ApiResponse.<Void>builder()
+        CustomApiResponse<Void> response = CustomApiResponse.<Void>builder()
                 .success(false)
                 .message(message)
                 .status(500)
@@ -61,7 +61,7 @@ class ApiResponseTest {
         String message = "성공적으로 처리되었습니다.";
 
         // when
-        ApiResponse<String> response = ApiResponse.ok(data, message);
+        CustomApiResponse<String> response = CustomApiResponse.ok(data, message);
 
         // then
         assertThat(response.isSuccess()).isTrue();
@@ -81,12 +81,12 @@ class ApiResponseTest {
     @DisplayName("HTTP 상태 코드별 에러 응답을 생성할 수 있다")
     void errorResponses(int status, String method, String message) {
         // when
-        ApiResponse<Void> response = switch (method) {
-            case "badRequest" -> ApiResponse.badRequest(message);
-            case "unauthorized" -> ApiResponse.unauthorized(message);
-            case "forbidden" -> ApiResponse.forbidden(message);
-            case "notFound" -> ApiResponse.notFound(message);
-            case "internalServerError" -> ApiResponse.internalServerError(message);
+        CustomApiResponse<Void> response = switch (method) {
+            case "badRequest" -> CustomApiResponse.badRequest(message);
+            case "unauthorized" -> CustomApiResponse.unauthorized(message);
+            case "forbidden" -> CustomApiResponse.forbidden(message);
+            case "notFound" -> CustomApiResponse.notFound(message);
+            case "internalServerError" -> CustomApiResponse.internalServerError(message);
             default -> throw new IllegalArgumentException("Unknown method: " + method);
         };
 
@@ -106,7 +106,7 @@ class ApiResponseTest {
         String rejectedValue = "invalid-email";
 
         // when
-        ApiResponse<List<ValidationError>> response = ApiResponse.validationError(field, message, rejectedValue);
+        CustomApiResponse<List<ValidationError>> response = CustomApiResponse.validationError(field, message, rejectedValue);
 
         // then
         assertThat(response.isSuccess()).isFalse();
@@ -124,7 +124,7 @@ class ApiResponseTest {
     @DisplayName("생성된 응답은 불변이다")
     void responseIsImmutable() {
         // given
-        ApiResponse<String> response = ApiResponse.<String>builder()
+        CustomApiResponse<String> response = CustomApiResponse.<String>builder()
                 .success(true)
                 .data("test")
                 .message("test message")

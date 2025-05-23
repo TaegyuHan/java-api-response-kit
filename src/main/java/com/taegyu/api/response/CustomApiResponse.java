@@ -19,7 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-public class ApiResponse<T> {
+public class CustomApiResponse<T> {
     /**
      * API 요청의 성공 여부
      */
@@ -48,8 +48,8 @@ public class ApiResponse<T> {
      * @param <T> 응답 데이터의 타입
      * @return 생성된 응답 객체
      */
-    public static <T> ApiResponse<T> of(T data, int status) {
-        ApiResponse<T> response = new ApiResponse<>();
+    public static <T> CustomApiResponse<T> of(T data, int status) {
+        CustomApiResponse<T> response = new CustomApiResponse<>();
         response.setSuccess(true);
         response.setData(data);
         response.setStatus(status);
@@ -65,8 +65,8 @@ public class ApiResponse<T> {
      * @param <T> 응답 데이터의 타입
      * @return 생성된 응답 객체
      */
-    public static <T> ApiResponse<T> of(T data, String message, int status) {
-        ApiResponse<T> response = new ApiResponse<>();
+    public static <T> CustomApiResponse<T> of(T data, String message, int status) {
+        CustomApiResponse<T> response = new CustomApiResponse<>();
         response.setSuccess(true);
         response.setData(data);
         response.setMessage(message);
@@ -82,8 +82,8 @@ public class ApiResponse<T> {
      * @param <T> 응답 데이터의 타입
      * @return 생성된 에러 응답 객체
      */
-    public static <T> ApiResponse<T> error(String message, int status) {
-        ApiResponse<T> response = new ApiResponse<>();
+    public static <T> CustomApiResponse<T> error(String message, int status) {
+        CustomApiResponse<T> response = new CustomApiResponse<>();
         response.setSuccess(false);
         response.setMessage(message);
         response.setStatus(status);
@@ -97,7 +97,7 @@ public class ApiResponse<T> {
      * @param <T> 응답 데이터의 타입
      * @return 생성된 응답 객체
      */
-    public static <T> ApiResponse<T> ok(T data) {
+    public static <T> CustomApiResponse<T> ok(T data) {
         return of(data, 200);
     }
 
@@ -109,7 +109,7 @@ public class ApiResponse<T> {
      * @param <T> 응답 데이터의 타입
      * @return 생성된 응답 객체
      */
-    public static <T> ApiResponse<T> ok(T data, String message) {
+    public static <T> CustomApiResponse<T> ok(T data, String message) {
         return of(data, message, 200);
     }
 
@@ -120,7 +120,7 @@ public class ApiResponse<T> {
      * @param <T> 응답 데이터의 타입
      * @return 생성된 응답 객체
      */
-    public static <T> ApiResponse<T> created(T data) {
+    public static <T> CustomApiResponse<T> created(T data) {
         return of(data, 201);
     }
 
@@ -132,7 +132,7 @@ public class ApiResponse<T> {
      * @param <T> 응답 데이터의 타입
      * @return 생성된 응답 객체
      */
-    public static <T> ApiResponse<T> created(T data, String message) {
+    public static <T> CustomApiResponse<T> created(T data, String message) {
         return of(data, message, 201);
     }
 
@@ -143,7 +143,7 @@ public class ApiResponse<T> {
      * @param <T> 응답 데이터의 타입
      * @return 생성된 에러 응답 객체
      */
-    public static <T> ApiResponse<T> badRequest(String message) {
+    public static <T> CustomApiResponse<T> badRequest(String message) {
         return error(message, 400);
     }
 
@@ -154,7 +154,7 @@ public class ApiResponse<T> {
      * @param <T> 응답 데이터의 타입
      * @return 생성된 에러 응답 객체
      */
-    public static <T> ApiResponse<T> notFound(String message) {
+    public static <T> CustomApiResponse<T> notFound(String message) {
         return error(message, 404);
     }
 
@@ -165,7 +165,7 @@ public class ApiResponse<T> {
      * @param <T> 응답 데이터의 타입
      * @return 생성된 에러 응답 객체
      */
-    public static <T> ApiResponse<T> unauthorized(String message) {
+    public static <T> CustomApiResponse<T> unauthorized(String message) {
         return error(message, 401);
     }
 
@@ -176,7 +176,7 @@ public class ApiResponse<T> {
      * @param <T> 응답 데이터의 타입
      * @return 생성된 에러 응답 객체
      */
-    public static <T> ApiResponse<T> forbidden(String message) {
+    public static <T> CustomApiResponse<T> forbidden(String message) {
         return error(message, 403);
     }
 
@@ -187,7 +187,7 @@ public class ApiResponse<T> {
      * @param <T> 응답 데이터의 타입
      * @return 생성된 에러 응답 객체
      */
-    public static <T> ApiResponse<T> internalServerError(String message) {
+    public static <T> CustomApiResponse<T> internalServerError(String message) {
         return error(message, 500);
     }
 
@@ -197,8 +197,8 @@ public class ApiResponse<T> {
      * @param errors 유효성 검사 오류 목록
      * @return 생성된 에러 응답 객체
      */
-    public static ApiResponse<List<ValidationError>> validationError(List<ValidationError> errors) {
-        ApiResponse<List<ValidationError>> response = new ApiResponse<>();
+    public static CustomApiResponse<List<ValidationError>> validationError(List<ValidationError> errors) {
+        CustomApiResponse<List<ValidationError>> response = new CustomApiResponse<>();
         response.setSuccess(false);
         response.setData(errors);
         response.setMessage("입력값이 올바르지 않습니다.");
@@ -213,7 +213,7 @@ public class ApiResponse<T> {
      * @param message 오류 메시지
      * @return 생성된 에러 응답 객체
      */
-    public static ApiResponse<List<ValidationError>> validationError(String field, String message) {
+    public static CustomApiResponse<List<ValidationError>> validationError(String field, String message) {
         return validationError(ValidationError.of(field, message));
     }
 
@@ -225,7 +225,7 @@ public class ApiResponse<T> {
      * @param rejectedValue 거부된 값
      * @return 생성된 에러 응답 객체
      */
-    public static ApiResponse<List<ValidationError>> validationError(String field, String message, Object rejectedValue) {
+    public static CustomApiResponse<List<ValidationError>> validationError(String field, String message, Object rejectedValue) {
         return validationError(ValidationError.of(field, message, rejectedValue));
     }
 } 
