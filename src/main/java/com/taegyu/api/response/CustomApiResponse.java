@@ -20,6 +20,12 @@ import java.util.List;
 @AllArgsConstructor
 @SuperBuilder
 public class CustomApiResponse<T> {
+
+    /**
+     * API 응답 코드.
+     */
+    private String code;
+
     /**
      * API 요청의 성공 여부
      */
